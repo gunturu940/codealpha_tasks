@@ -1,0 +1,58 @@
+{% extends 'tasks/base.html' %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card p-4">
+            <h3 class="fw-bold mb-4">
+                <i class="fas fa-plus-circle me-2" style="color:#667eea"></i>
+                Add New Task
+            </h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Task Title</label>
+                    <input type="text" name="title" class="form-control"
+                           placeholder="e.g. Design homepage" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Description</label>
+                    <textarea name="description" class="form-control" rows="3"
+                              placeholder="Describe the task..."></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Priority</label>
+                        <select name="priority" class="form-select">
+                            <option value="low">🟢 Low</option>
+                            <option value="medium" selected>🟡 Medium</option>
+                            <option value="high">🔴 High</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Deadline</label>
+                        <input type="date" name="deadline" class="form-control">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Assign To</label>
+                    <select name="assigned_to" class="form-select">
+                        <option value="">-- Unassigned --</option>
+                        {% for member in members %}
+                        <option value="{{ member.pk }}">{{ member.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-fill">
+                        <i class="fas fa-plus me-2"></i>Create Task
+                    </button>
+                    <a href="{% url 'project_detail' project.pk %}"
+                       class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
